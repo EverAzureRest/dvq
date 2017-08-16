@@ -60,18 +60,6 @@
         "description": "String to prefix the generation of the VM Name"
       }
     },
-    "workspaceId": {
-      "type": "string",
-      "metadata": {
-        "description": "The Workspace ID is the Operations Management Suite Workspace ID found in the OMS Console under Settings and Connected Sources"
-      }
-    },
-    "workspaceKey": {
-      "type": "string",
-      "metadata": {
-        "description": "The Workspace Key is the Operations Management Suite Workspace Key found in the OMS Console under Settings and Connected Sources"
-      }
-    },
     "virtualNetworkName": {
       "type": "string"
     },
@@ -80,6 +68,16 @@
     },
     "subnetName": {
       "type": "string"
+    },
+    "networkSecurityGroupName": {
+      "type": "string",
+      "defaultValue": "DefaultNSG"
+    },
+    "commandToExecute": {
+      "type": "string",
+      "metadata": {
+        "description": "The command for the custom Script extension to execute - like 'sh script.sh"
+      }
     }
   },
   "variables": {
@@ -90,6 +88,29 @@
     "networkInterfaceNamePrefix": "VNic"
   },
   "resources": [
+    {
+      "name": "[parameters('networkSecurityGroupName')]",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "securityRules": [
+          {
+            "name": "default-allow-ssh",
+            "properties": {
+              "priority": 1000,
+              "sourceAddressPrefix": "*",
+              "protocol": "Tcp",
+              "destinationPortRange": "22",
+              "access": "Allow",
+              "direction": "Inbound",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*"
+            }
+          }
+        ]
+      }
+    },
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkInterfaces",
@@ -107,6 +128,7 @@
           {
             "name": "[concat(parameters('vmNamePrefix'), copyindex(), '-ipconfig')]",
             "properties": {
+              "networkSecurityGroup": "[resourceID('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]",
               "privateIPAllocationMethod": "Dynamic",
               "subnet": {
                 "id": "[variables('subnetRef')]"
@@ -186,26 +208,25 @@
       },
       "resources": [
         {
-          "name": "Microsoft.EnterpriseCloud.Monitoring",
+          "name": "CustomScriptForLinux",
           "type": "extensions",
           "location": "[resourceGroup().location]",
           "apiVersion": "2016-04-30-preview",
           "dependsOn": [
             "[concat('Microsoft.Compute/virtualMachines/', concat(parameters('vmNamePrefix'), copyindex()))]"
           ],
-          "tags": {
-            "displayName": "MMA"
-          },
           "properties": {
-            "publisher": "Microsoft.EnterpriseCloud.Monitoring",
-            "type": "OmsAgentForLinux",
-            "typeHandlerVersion": "1.0",
+            "publisher": "Microsoft.OSTCExtensions",
+            "type": "CustomScriptForLinux",
+            "typeHandlerVersion": "1.4",
             "autoUpgradeMinorVersion": true,
             "settings": {
-              "workspaceId": "[parameters('workspaceId')]"
+              "fileUris": [
+                "https://raw.githubusercontent.com/lorax79/dvq/master/customScript.sh"
+              ]
             },
             "protectedSettings": {
-              "workspaceKey": "[parameters('workspaceKey')]"
+              "commandToExecute": "[parameters('commandToExecute')]"
             }
           }
         }

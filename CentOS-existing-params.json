@@ -5,8 +5,8 @@
     "adminUserName": {
         "value": "centosuser"
     },
-    "sshRSAPublicKey": {
-        "value": "ssh-rsa <Certificate-Thumbprint-HERE>"
+    "sshRSAPublicKey": { 
+        "value": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUttUqwEyHj5T2mu2320Gnn43wr1DZsPyii+78MYyHmJwWxvxNAYVYHN+DfWJXxNnqW/BbPzLtZ1wwPCq9mDwO+OkgtiV9iGNoSv6CuI6/gWW2VldW4HTsudS9tCUmV0nMfOVK/xtHUBXipBTqHDTx7ZnBBVOB8BtM9xElyols+454P911AQd5L7b/BSoxMCNaTjmMQMpVGODlD8vY6xq1tS8+YBBxhEE3gse6J7gv+hG5ZzSV1lSOia1lNQ+xRVKntZNDp9wgZpBlLLSwbk6dAkpd2VtP6QhJ8BApz5QGIFsmRA4iaqjq0NzScyXbuywroNHtJfFDrkznY9CAVWmX"
     },
     "vmNamePrefix": {
         "value": "DVQuesta0"
@@ -15,19 +15,16 @@
         "value": 2
     },
     "virtualNetworkName": {
-        "value": "standalonevnet"
+        "value": "DVQVNET"
     },
-    "virtualNetworkResourceGroup": {
-        "value": "eastus2-nw"
+    "virtualNetworkResourceGroup": { 
+        "value": "DVQVNETRG"
     },
     "subnetName": {
-        "value": "default"
+        "value": "Subnet1"
     },
-    "workspaceID": { //OMS Workspace ID for Integrated Monitoring
-        "value": ""
-    },
-    "workspaceKey": { //OMS Workspace Key
-        "value": ""
+    "commandToExecute": { 
+        "value": "sh customScript.sh"
     }
   }
 }
