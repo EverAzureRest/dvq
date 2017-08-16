@@ -8,7 +8,7 @@ VMRG=DVQuestaVms
 #Resource Group Name for the VNET
 VNETRG=DVQVNETRG
 #Name of the deployment subscription
-SUBSCRIPTIONNAME=jorsmith-labsub1
+SUBSCRIPTIONNAME=<YOUR SUB HERE>
 LOCATION=eastus2
 VNETTEMPLATEFILE=./simplevnet.json
 VNETPARAMSFILE=./simplevnet.parameters.json
