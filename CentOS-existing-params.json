@@ -1,0 +1,33 @@
+{
+"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+"contentVersion": "1.0.0.0",
+"parameters": {
+    "adminUserName": {
+        "value": "centosuser"
+    },
+    "sshRSAPublicKey": {
+        "value": "ssh-rsa <Certificate-Thumbprint-HERE>"
+    },
+    "vmNamePrefix": {
+        "value": "DVQuesta0"
+    },
+    "numberOfInstances": {
+        "value": 2
+    },
+    "virtualNetworkName": {
+        "value": "standalonevnet"
+    },
+    "virtualNetworkResourceGroup": {
+        "value": "eastus2-nw"
+    },
+    "subnetName": {
+        "value": "default"
+    },
+    "workspaceID": { //OMS Workspace ID for Integrated Monitoring
+        "value": ""
+    },
+    "workspaceKey": { //OMS Workspace Key
+        "value": ""
+    }
+  }
+}
